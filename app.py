@@ -197,7 +197,7 @@ def parse_input_convidados(texto, sigla_posicao):
 
 # --- INTERFACE ---
 
-st.title("⚽ Sorteador 2025")
+st.title("⚽ Divisor Hugo 2026")
 
 # Upload
 arquivo_padrao = 'Planilha Futebol 2025.xlsx'
@@ -268,9 +268,9 @@ if df is not None:
         else: st.warning(lbl)
         
     with k2:
-        lbl = f"👥 Total: {total_geral}/14"
-        if total_geral > 14: st.error(lbl)
-        elif total_geral >= 10: st.success(lbl)
+        lbl = f"🏃 Linha: {tot_linha}/14"
+        if tot_linha > 14: st.error(lbl)
+        elif tot_linha >= 8: st.success(lbl)
         else: st.info(lbl)
         
     with k3:
@@ -281,13 +281,13 @@ if df is not None:
     if st.button("🎲 SORTEAR TIMES", type="primary", use_container_width=True):
         erro = False
         if tot_goleiros > 2:
-            st.toast("Muitos goleiros!", icon="❌")
+            st.toast("Máximo de 2 goleiros!", icon="❌")
             erro = True
-        if total_geral > 14:
-            st.toast("Máximo de 14 jogadores!", icon="❌")
+        if tot_linha > 14:
+            st.toast("Máximo de 14 jogadores de linha!", icon="❌")
             erro = True
-        if total_geral < 4:
-            st.toast("Faltam jogadores.", icon="⚠️")
+        if tot_linha < 2:
+            st.toast("Mínimo de 2 jogadores de linha.", icon="⚠️")
             erro = True
             
         if not erro:
@@ -303,12 +303,12 @@ if df is not None:
             col_a, col_b = st.columns(2)
             
             with col_a:
-                s_a = df_a['Skill'].sum()
+                s_a = df_a[df_a['Posicao'] != 'Goleiro']['Skill'].sum()
                 st.info(f"🟥 TIME A (Força: {s_a:.1f})")
                 st.dataframe(df_a[['Posicao', 'Nome']], hide_index=True, use_container_width=True)
                 
             with col_b:
-                s_b = df_b['Skill'].sum()
+                s_b = df_b[df_b['Posicao'] != 'Goleiro']['Skill'].sum()
                 st.info(f"🟦 TIME B (Força: {s_b:.1f})")
                 st.dataframe(df_b[['Posicao', 'Nome']], hide_index=True, use_container_width=True)
             
